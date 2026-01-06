@@ -703,7 +703,8 @@ TreeNode::Ptr XMLParser::PImpl::createNodeFromXML(const XMLElement* element,
             }
             catch(std::exception& ex)
             {
-              auto msg = StrCat("The port with name \"", port_name, "\" and value \"",
+              auto msg = StrCat("In Element \"", instance_name, "\", line (", std::to_string(att->GetLineNum()),
+                                "), the port with name \"", port_name, "\" and value \"",
                                 port_value, "\" can not be converted to ",
                                 port_model.typeName());
               throw LogicError(msg);
