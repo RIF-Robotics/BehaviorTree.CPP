@@ -179,6 +179,10 @@ template <>
 template <>
 [[nodiscard]] std::vector<int> convertFromString<std::vector<int>>(StringView str);
 
+// int64 numbers separated by the character ";"
+template <>
+[[nodiscard]] std::vector<int64_t> convertFromString<std::vector<int64_t>>(StringView str);
+
 // Real numbers separated by the character ";"
 template <>
 [[nodiscard]] std::vector<double> convertFromString<std::vector<double>>(StringView str);

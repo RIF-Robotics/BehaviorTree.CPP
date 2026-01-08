@@ -117,6 +117,11 @@ std::string convertFromString<std::string>(StringView str)
 template <>
 int64_t convertFromString<int64_t>(StringView str)
 {
+  if (str.size() == 0)
+  {
+    return 0;
+  }
+
   long result = 0;
   const auto [ptr, ec] = std::from_chars(str.data(), str.data() + str.size(), result);
   std::ignore = ptr;
@@ -194,6 +199,11 @@ uint32_t convertFromString<uint32_t>(StringView str)
 template <>
 double convertFromString<double>(StringView str)
 {
+  if (str.size() == 0)
+  {
+    return 0;
+  }
+
   // see issue #120
   // http://quick-bench.com/DWaXRWnxtxvwIMvZy2DxVPEKJnE
 
@@ -225,6 +235,20 @@ std::vector<int> convertFromString<std::vector<int>>(StringView str)
   for(const StringView& part : parts)
   {
     output.push_back(convertFromString<int>(part));
+  }
+  return output;
+}
+
+template <>
+std::vector<int64_t> convertFromString<std::vector<int64_t>>(StringView str)
+{
+  auto parts = splitString(str, ';');
+  std::vector<int64_t> output;
+
+  output.reserve(parts.size());
+  for(const StringView& part : parts)
+  {
+    output.push_back(convertFromString<int64_t>(part));
   }
   return output;
 }
@@ -271,7 +295,11 @@ std::vector<std::string> convertFromString<std::vector<std::string>>(StringView 
 template <>
 bool convertFromString<bool>(StringView str)
 {
-  if(str.size() == 1)
+  if(str.size() == 0)
+  {
+    return false;
+  }
+  else if(str.size() == 1)
   {
     if(str[0] == '0')
     {
