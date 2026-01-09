@@ -109,19 +109,6 @@ std::string toStr<NodeType>(const NodeType& type)
 }
 
 template <>
-std::vector<std::string> convertFromString<std::vector<std::string>>(StringView str)
-{
-  auto parts = splitString(str, ';');
-  std::vector<std::string> output;
-  for (unsigned int i = 0; i < parts.size(); ++i)
-  {
-    std::string n = convertFromString<std::string>(parts[i]);
-    output.push_back(n);
-  }
-  return output;
-}
-
-template <>
 std::vector<float> convertFromString<std::vector<float>>(StringView str)
 {
   auto parts = splitString(str, ';');
